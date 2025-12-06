@@ -1,0 +1,7 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+ANSWERS.md
+01.txt
+02.txt

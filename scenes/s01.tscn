@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://dr63dttsexgyb"]
+
+[ext_resource type="Script" uid="uid://d3hkxf8hw70ma" path="res://scripts/s01.gd" id="1_s1dji"]
+[ext_resource type="Script" uid="uid://h7lbkw0lyhc3" path="res://scripts/s01_producer.gd" id="2_81oe7"]
+[ext_resource type="Script" uid="uid://k1x6so6dqqkw" path="res://scripts/s01_dial.gd" id="3_urmgl"]
+[ext_resource type="Script" uid="uid://dqk3dxkmlxr4s" path="res://scripts/s01_labels.gd" id="4_k3pys"]
+
+[node name="S01" type="Node2D"]
+script = ExtResource("1_s1dji")
+
+[node name="S01_Producer" type="Node" parent="."]
+script = ExtResource("2_81oe7")
+
+[node name="S01_Labels" type="Node2D" parent="."]
+script = ExtResource("4_k3pys")
+
+[node name="S01_Dial" type="Node2D" parent="."]
+script = ExtResource("3_urmgl")
