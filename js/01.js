@@ -1,18 +1,17 @@
-function fetchData(name) {
-    return fetch(`../puzzles/${name}.txt`)
-        .then(res => res.text())
-        .then(data => {
-            let lines = data.split('\n');
-            if (lines[lines.length - 1] === '') lines.pop();
-            return lines.map(line => {
-                const dir = line[0];
-                const delta = parseInt(line.slice(1));
-                return [dir, delta];
-            });
-        });
+import { fetchPuzzle, times } from './utils.js';
+
+async function parseData(name) {
+    const data = await fetchPuzzle(name);
+    let lines = data.split('\n');
+    if (lines[lines.length - 1] === '') lines.pop();
+    return lines.map(line => {
+        const dir = line[0];
+        const delta = parseInt(line.slice(1));
+        return [dir, delta];
+    });
 }
 
-const items = await fetchData('01a');
+const items = await parseData('01a');
 
 function analyze() {
     const dirs = new Set();
@@ -24,10 +23,6 @@ function analyze() {
     });
     console.warn(`dirs:        ${[...dirs]}`);
     console.warn(`deltaLimits: ${deltaLimits}`);
-}
-
-function times(n) {
-    return Array(n).fill(0).map((_, i) => i);
 }
 
 function part1() {
