@@ -13,7 +13,7 @@ Used stable Godot 4.5.
 ## Days:
 
 - [x] 1
-- [ ] 2
+- [x] 2
 - [ ] 3
 - [ ] 4
 - [ ] 5
