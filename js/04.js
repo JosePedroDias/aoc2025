@@ -7,13 +7,13 @@ async function parseData(name) {
     return lines;
 }
 
-const items = await parseData('04');
+const items = await parseData('04a');
 const m = matrixFromLines(items);
-console.log(m.toString());
+//console.log(m.toString());
 
 function analyze() {
-    console.log(`lines: ${items.length}`);
-    console.log(`widths: ${items.map(line => line.length)}`);
+    console.warn(`lines: ${items.length}`);
+    console.warn(`widths: ${items.map(line => line.length)}`);
 }
 
 function countRolls(arr) {
@@ -33,7 +33,7 @@ function part1() {
         amount++;
     }
     console.log(`amount: ${amount}`);
-    console.log(m2.toString());
+    //console.log(m2.toString());
 }
 
 function part2() {
@@ -53,8 +53,8 @@ function part2() {
             m2.set(row, col, '.');
             amount++;
         }
-        console.log(`amount: ${amount}`);
-        console.log(m2.toString());
+        //console.log(`amount: ${amount}`);
+        //console.log(m2.toString());
         m1 = m2;
         totalAmount += amount;
     } while (amount > 0);

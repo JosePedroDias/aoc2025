@@ -9,14 +9,14 @@ async function parseData(name) {
     return [ranges, ids];
 }
 
-const [ranges, ids] = await parseData('05');
+const [ranges, ids] = await parseData('05a');
 
 function inRange(n, range) {
     return n >= range[0] && n <= range[1];
 }
 
 function analyze() {
-    console.log(`ranges: ${ranges.length}, ids: ${ids.length}`);
+    console.warn(`ranges: ${ranges.length}, ids: ${ids.length}`);
 }
 
 function part1() {

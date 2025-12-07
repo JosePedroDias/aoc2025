@@ -17,6 +17,9 @@ export function times(n) {
     return Array(n).fill(0).map((_, i) => i);
 }
 
+export function enumerate(arr) {
+    return arr.map((v, i) => [i, v]);
+}
 export class Matrix {
     constructor(rows, cols, fill = undefined) {
         this.rows = rows;
@@ -75,6 +78,54 @@ export class Matrix {
     clone() {
         const m2 = new Matrix(this.rows, this.cols);
         m2.data = structuredClone(this.data);
+        return m2;
+    }
+
+    row(rIdx) {
+        return this.data[rIdx];
+    }
+
+    column(cIdx) {
+        return this.data.map(row => row[cIdx]);
+    }
+
+    subMatrix(r0, c0, r1, c1) {
+        const m2 = new Matrix(r1 - r0, c1 - c0);
+        for (let row = r0; row < r1; ++row) {
+            for (let col = c0; col < c1; ++col) {
+                m2.set(row - r0, col - c0, this.get(row, col));
+            }
+        }
+        return m2;
+    }
+
+    forEach(fn) {
+        for (let [row, col] of this.positions()) {
+            fn([row, col], this.get(row, col));
+        }
+    }
+    
+    transpose() {
+        const m2 = new Matrix(this.cols, this.rows);
+        for (let [row, col] of this.positions()) {
+            m2.set(col, row, this.get(row, col));
+        }
+        return m2;
+    }
+
+    invertRows() {
+        const m2 = new Matrix(this.rows, this.cols);
+        for (let [row, col] of this.positions()) {
+            m2.set(this.rows - row - 1, col, this.get(row, col));
+        }
+        return m2;
+    }
+
+    invertColumns() {
+        const m2 = new Matrix(this.rows, this.cols);
+        for (let [row, col] of this.positions()) {
+            m2.set(row, this.cols - col - 1, this.get(row, col));
+        }
         return m2;
     }
 }
