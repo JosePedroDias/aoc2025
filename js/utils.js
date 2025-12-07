@@ -31,6 +31,10 @@ export class Matrix {
         return this.data[row][col];
     }
 
+    isCell(row, col, v) {
+        return this.data[row][col] === v;
+    }
+
     set(row, col, value) {
         this.data[row][col] = value;
     }
@@ -104,6 +108,18 @@ export class Matrix {
             fn([row, col], this.get(row, col));
         }
     }
+
+    forEachRowIndex(fn) {
+        for (let row = 0; row < this.rows; ++row) {
+            fn(row) // , this.row(row));
+        }
+    }
+
+    forEachColIndex(fn) {
+        for (let col = 0; col < this.cols; ++col) {
+            fn(col) // , this.column(col));
+        }
+    }
     
     transpose() {
         const m2 = new Matrix(this.cols, this.rows);
@@ -140,4 +156,119 @@ export function matrixFromLines(lines) {
         });
     });
     return m;
+}
+
+export class SetOf {
+    constructor(serializeKeyFn, deserializeKeyFn) {
+        this.set = new Set();
+        this.serializeKeyFn = serializeKeyFn || JSON.stringify;
+        this.deserializeKeyFn = deserializeKeyFn || JSON.parse;
+    }
+
+    add(data) {
+        const key = this.serializeKeyFn(data);
+        this.set.add(key);
+    }
+
+    forEach(fn) {
+        for (let key of this.set.keys()) {
+            fn(this.deserializeKeyFn(key));
+        }
+    }
+
+    map(fn) {
+        const s2 = new SetOf(this.serializeKeyFn, this.deserializeKeyFn);
+        for (let key of this.set.keys()) {
+            const data = this.deserializeKeyFn(key);
+            const data2 = fn(data);
+            s2.add(data2);
+        }
+        return s2;
+    }
+
+    has(data) {
+        const key = this.serializeKeyFn(data);
+        return this.set.has(key);
+    }
+
+    numKeys() {
+        return this.set.size;
+    }
+
+    getArray() {
+        return Array.from(this.set).map(key => this.deserializeKeyFn(key));
+    }
+
+    // TODO: confirm correctness
+    clone() {
+        const s2 = new SetOf(this.serializeKeyFn, this.deserializeKeyFn);
+        for (let key of this.set.keys()) {
+            s2.set.add(key);
+        }
+        return s2;
+    }
+
+    emptyClone() {
+        return new SetOf(this.serializeKeyFn, this.deserializeKeyFn);
+    }
+}
+
+
+export class HistogramOf {
+    constructor(serializeKeyFn, deserializeKeyFn) {
+        this.map = new Map();
+        this.serializeKeyFn = serializeKeyFn;
+        this.deserializeKeyFn = deserializeKeyFn
+    }
+
+    inc(data) {
+        const key = this.serializeKeyFn(data);
+        const value = this.map.get(key) || 0;
+        this.map.set(key, value + 1);
+    }
+
+    add(data, deltaValue) {
+        const key = this.serializeKeyFn(data);
+        const value = this.map.get(key) || 0;
+        this.map.set(key, value + deltaValue);
+    }
+
+    get(data) {
+        const key = this.serializeKeyFn(data);
+        return this.map.get(key) || 0;
+    }
+
+    doesKeyExist(data) {
+        const key = this.serializeKeyFn(data);
+        return this.map.has(key);
+    }
+
+    forEach(fn) {
+        for (let [key, value] of this.map.entries()) {
+            fn(this.deserializeKeyFn(key), value);
+        }
+    }
+
+    numKeys() {
+        return this.map.size;
+    }
+
+    sum() {
+        let sum = 0;
+        for (let value of this.map.values()) sum += value;
+        return sum;
+    }
+
+    // TODO confirm correctness
+    clone() {
+        const h2 = new HistogramOf(this.serializeKeyFn, this.deserializeKeyFn);
+        for (let [key, value] of this.map.entries()) {
+            h2.map.set(key, value);
+        }
+        return h2;
+    }
+
+    emptyClone() {
+        return new HistogramOf(this.serializeKeyFn, this.deserializeKeyFn);
+    }
 }
