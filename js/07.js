@@ -23,7 +23,6 @@ m0.forEach(([row, col], c) => {
 //console.log('splitterPositions', splitterPositions);
 
 function analyze() {
-    console.warn('dims:', m.rows, m.cols);
 }
 
 function part1() {
@@ -74,6 +73,6 @@ function part2() {
     console.log('total:', cols.sum());
 }
 
-//analyze();
+analyze();
 part1();
 part2();

@@ -272,3 +272,21 @@ export class HistogramOf {
         return new HistogramOf(this.serializeKeyFn, this.deserializeKeyFn);
     }
 }
+
+export function dist3([x, y, z], [x2, y2, z2]) {
+    const dx = x - x2;
+    const dy = y - y2;
+    const dz = z - z2;
+    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+export function permutations2(n) {
+    const res = [];
+    for (let i = 1; i < n; ++i) {
+        for (let j = 0; j < i; ++j) {
+            res.push([j, i]);
+        }
+    }
+    res.sort((a, b) => a[0] - b[0]);
+    return res;
+}
