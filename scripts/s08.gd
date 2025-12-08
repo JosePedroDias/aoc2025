@@ -19,6 +19,7 @@ func find_cluster_having(el: int) -> int:
 	return -1
 
 func go() -> void:
+	print("Starting processing...")
 	bounds = _calc_bounds()
 	var center = bounds["center"]
 	var max_distance = bounds["max_distance"]
@@ -33,38 +34,17 @@ func go() -> void:
 	print("sphere radius: %s" % [sphere_radius])
 	camera.set_target_and_distance(center, max_distance)
 
-	for p in points: _create_sphere(p)
-	
-	for i in range(points.size()): clusters.push_back([i])
-	
-	var take_dists = dists if part2 else dists.slice(0, connections_left)
-	for d in take_dists:
-		var i = d[1]
-		var j = d[2]
-		var cl_i_idx = find_cluster_having(i)
-		var cl_j_idx = find_cluster_having(j)
-		
-		#print("* i %d (c: %d}), j %d (c: %d) *" % [i, cl_i_idx, j, cl_j_idx])
-		
-		_connect_spheres(points[i], points[j])
+	# Create spheres with progress feedback
+	print("Creating spheres...")
+	await _create_spheres_async()
 
-		if cl_i_idx == cl_j_idx:
-			#print("i and j are in the same cluster. nothing to do.")
-			pass
-		else:
-			#print("joining clusters %d with %d..." % [cl_i_idx, cl_j_idx])
-			var cl_i = clusters[cl_i_idx]
-			var cl_j = clusters[cl_j_idx]
-			var merged_cl = Array(cl_i)
-			merged_cl.append_array(cl_j)
-			clusters = clusters.filter(func(el): return el != cl_i and el != cl_j)
-			clusters.append(merged_cl)
-			if clusters.size() == 1:
-				var xi = points[i][0];
-				var xj = points[j][0];
-				print("part 2: xi: %d, xj: %d => xi*xj: %d" % [xi, xj, xi * xj]);
-				break;
-	
+	# Initialize clusters
+	for i in range(points.size()): clusters.push_back([i])
+
+	# Process connections with progress feedback
+	print("Processing connections...")
+	await _process_connections_async()
+
 	if not part2:
 		var cluster_sizes: Array = clusters.map(func(c): return c.size())
 		cluster_sizes.sort()
@@ -72,6 +52,53 @@ func go() -> void:
 		var res_part1: int = 1
 		for i in range(3): res_part1 *= cluster_sizes[i]
 		print("part 1: %d" % [res_part1])
+
+	print("Processing complete!")
+
+func _create_spheres_async() -> void:
+	var batch_size = 20  # Create spheres in batches to avoid freezing
+	for i in range(0, points.size(), batch_size):
+		var end_idx = min(i + batch_size, points.size())
+		for j in range(i, end_idx):
+			_create_sphere(points[j])
+
+		await get_tree().process_frame  # Yield control to prevent freezing
+
+func _process_connections_async() -> void:
+	var take_dists = dists if part2 else dists.slice(0, connections_left)
+	var batch_size = 20  # Process connections in batches
+	var processed = 0
+
+	for i in range(0, take_dists.size(), batch_size):
+		var end_idx = min(i + batch_size, take_dists.size())
+
+		for j in range(i, end_idx):
+			var d = take_dists[j]
+			var point_i = d[1]
+			var point_j = d[2]
+			var cl_i_idx = find_cluster_having(point_i)
+			var cl_j_idx = find_cluster_having(point_j)
+
+			# Always draw the connection
+			_connect_spheres(points[point_i], points[point_j])
+
+			if cl_i_idx == cl_j_idx:
+				pass  # Already in same cluster
+			else:
+				# Merge clusters
+				var cl_i = clusters[cl_i_idx]
+				var cl_j = clusters[cl_j_idx]
+				var merged_cl = Array(cl_i)
+				merged_cl.append_array(cl_j)
+				clusters = clusters.filter(func(el): return el != cl_i and el != cl_j)
+				clusters.append(merged_cl)
+				if clusters.size() == 1:
+					var xi = points[point_i][0];
+					var xj = points[point_j][0];
+					print("part 2: xi: %d, xj: %d => xi*xj: %d" % [xi, xj, xi * xj]);
+					return  # Early exit for part 2
+
+		await get_tree().process_frame  # Yield control to prevent freezing
 
 func _create_sphere(p: Vector3) -> void:
 	var mesh_instance = MeshInstance3D.new()
