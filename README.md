@@ -35,3 +35,18 @@ I used stable Godot 4.5.
 - [ ] [10](https://adventofcode.com/2025/day/10)
 - [ ] [11](https://adventofcode.com/2025/day/11)
 - [ ] [12](https://adventofcode.com/2025/day/12)
+
+## GDScript Reference
+
+-[bool](https://docs.godotengine.org/en/stable/classes/class_bool.html)
+-[int](https://docs.godotengine.org/en/stable/classes/class_int.html)
+-[float](https://docs.godotengine.org/en/stable/classes/class_float.html)
+-[string](https://docs.godotengine.org/en/stable/classes/class_string.html)
+-[stringname](https://docs.godotengine.org/en/stable/classes/class_stringname.html)
+-[Array](https://docs.godotengine.org/en/stable/classes/class_array.html)
+-[Object](https://docs.godotengine.org/en/stable/classes/class_object.html)
+-[Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)
+-[Vector3](https://docs.godotengine.org/en/stable/classes/class_vector3.html)
+-[Signal](https://docs.godotengine.org/en/stable/classes/class_signal.html)
+-[Callable](https://docs.godotengine.org/en/stable/classes/class_callable.html)
+-[Other Objects](https://docs.godotengine.org/en/stable/classes/index.html#other-objects)
