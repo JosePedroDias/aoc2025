@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dc3wa84blrkui"]
+
+[ext_resource type="Script" uid="uid://b504yyoar0hxd" path="res://scripts/s08.gd" id="1_w4xtn"]
+[ext_resource type="Script" uid="uid://ce50lvxxot8ad" path="res://scripts/s08_producer.gd" id="2_1oiys"]
+[ext_resource type="Script" uid="uid://hhjc38fccib6" path="res://scripts/orbit_camera_3d.gd" id="3_kw2mu"]
+
+[node name="S08" type="Node3D"]
+script = ExtResource("1_w4xtn")
+
+[node name="S08Producer" type="Node" parent="."]
+script = ExtResource("2_1oiys")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.424856)
+script = ExtResource("3_kw2mu")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.71245486, 0.4771894, 0.5144885, -0.701718, 0.48449078, 0.5223606, 0, -0.73318416, 0.68003017, 0, 0, 0)
