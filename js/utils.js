@@ -20,6 +20,58 @@ export function times(n) {
 export function enumerate(arr) {
     return arr.map((v, i) => [i, v]);
 }
+
+export class SparseMatrix {
+    constructor(rows, cols, fill = undefined) {
+        this.rows = rows;
+        this.cols = cols;
+        this.default = fill;
+        this.data = new Map();
+    }
+
+    _key(row, col) {
+        return `${row},${col}`;
+    }
+
+    get(row, col) {
+        const v = this.data.get(this._key(row, col));
+        return (v === undefined) ? this.default : v;
+    }
+
+    set(row, col, value) {
+        this.data.set(this._key(row, col), value);
+    }
+
+    unset(row, col) {
+        this.data.delete(this._key(row, col));
+    }
+
+    keys() {
+        return this.data.keys().map(key => key.split(',').map(Number));
+    }
+
+    values() {
+        return Array.from(this.data.values());
+    }
+
+    forEach(fn) {
+        for (let [row, col] of this.keys()) {
+            fn([row, col], this.get(row, col));
+        }
+    }
+
+    toString() {
+        let buffer = '';
+        for (let row = 0; row < this.rows; ++row) {
+            for (let col = 0; col < this.cols; ++col) {
+                buffer += this.get(row, col);
+            }
+            buffer += '\n';
+        }
+        return buffer;
+    }
+}
+
 export class Matrix {
     constructor(rows, cols, fill = undefined) {
         this.rows = rows;
@@ -289,4 +341,28 @@ export function permutations2(n) {
     }
     res.sort((a, b) => a[0] - b[0]);
     return res;
+}
+
+export function limits(arr) {
+    const res = [[Infinity, -Infinity], [Infinity, -Infinity]];
+    for (let [x, y] of arr) {
+        res[0][0] = Math.min(res[0][0], x);
+        res[0][1] = Math.max(res[0][1], x);
+        res[1][0] = Math.min(res[1][0], y);
+        res[1][1] = Math.max(res[1][1], y);
+    }
+    return res;
+}
+
+export function crop(lims) {
+    return {
+        dims: [
+            lims[0][1] - lims[0][0] + 1,
+            lims[1][1] - lims[1][0] + 1,
+        ],
+        offsets: [
+            -lims[0][0],
+            -lims[1][0],
+        ],
+    };
 }
