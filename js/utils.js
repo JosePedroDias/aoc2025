@@ -250,6 +250,10 @@ export class SetOf {
     getArray() {
         return Array.from(this.set).map(key => this.deserializeKeyFn(key));
     }
+    
+    get size() {
+        return this.set.size;
+    }
 
     // TODO: confirm correctness
     clone() {
