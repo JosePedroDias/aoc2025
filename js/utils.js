@@ -370,3 +370,17 @@ export function crop(lims) {
         ],
     };
 }
+
+export function compressCoordinates(coords) {
+    const xVals = [...new Set(coords.map(([x, _]) => x))].sort((a, b) => a - b);
+    const yVals = [...new Set(coords.map(([_, y]) => y))].sort((a, b) => a - b);
+
+    const xMap = new Map();
+    const yMap = new Map();
+    xVals.forEach((val, idx) => xMap.set(val, idx * 2));
+    yVals.forEach((val, idx) => yMap.set(val, idx * 2));
+
+    const compressedCoords = coords.map(([x, y]) => [xMap.get(x), yMap.get(y)]);
+
+    return { compressedCoords, xMap, yMap, xVals, yVals };
+}
