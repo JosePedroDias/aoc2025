@@ -31,8 +31,8 @@ I used stable Godot 4.5.
 - [x] [6](https://adventofcode.com/2025/day/6)
 - [x] [7](https://adventofcode.com/2025/day/7) godot (no visuals yet) 🚧
 - [x] [8](https://adventofcode.com/2025/day/8) godot (3D) ✅
-- [.] [9](https://adventofcode.com/2025/day/9)
-- [ ] [10](https://adventofcode.com/2025/day/10)
+- [.] [9](https://adventofcode.com/2025/day/9)  stuck in part 2, even with LLM help... I must be missing something...
+- [x] [10](https://adventofcode.com/2025/day/10) LLM used for mapping part 2 to LP format for solving with HIGHS
 - [ ] [11](https://adventofcode.com/2025/day/11)
 - [ ] [12](https://adventofcode.com/2025/day/12)
 

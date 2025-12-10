@@ -145,6 +145,6 @@ function part2() {
     console.log(totalClicks);
 }
 
-//analyze();
-//part1();
-part2();
+analyze();
+part1();
+//part2(); // solved using highs (10h.js)
