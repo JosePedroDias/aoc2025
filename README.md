@@ -33,7 +33,7 @@ I used stable Godot 4.5.
 - [x] [8](https://adventofcode.com/2025/day/8) godot (3D) ✅
 - [x] [9](https://adventofcode.com/2025/day/9) part 2 done with help
 - [x] [10](https://adventofcode.com/2025/day/10) LLM used for mapping part 2 to LP format for solving with HIGHS
-- [ ] [11](https://adventofcode.com/2025/day/11)
+- [.] [11](https://adventofcode.com/2025/day/11) stuck at part 2, even with LLM help
 - [ ] [12](https://adventofcode.com/2025/day/12)
 
 ## GDScript Reference
