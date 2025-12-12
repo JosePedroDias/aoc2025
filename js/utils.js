@@ -198,13 +198,13 @@ export class Matrix {
     }
 }
 
-export function matrixFromLines(lines) {
+export function matrixFromLines(lines, charMapper = c => c) {
     const rows = lines.length;
     const cols = lines[0].length;
     const m = new Matrix(rows, cols);
     lines.forEach((line, row) => {
         line.split('').forEach((cell, col) => {
-            m.set(row, col, cell);
+            m.set(row, col, charMapper(cell));
         });
     });
     return m;
